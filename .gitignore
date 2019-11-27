@@ -1,0 +1,6 @@
+#Unwanted folders
+.idea/
+target/
+
+#Unwanted files
+Algorithms.iml
