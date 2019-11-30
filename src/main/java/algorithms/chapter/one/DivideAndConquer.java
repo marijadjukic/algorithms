@@ -2,6 +2,7 @@ package algorithms.chapter.one;
 
 public class DivideAndConquer {
 
+    // running time Θ(n*lgn)
     public MaxSubarrayBean findMaximumSubarray(int[] array, int low, int high) {
         if (low==high) return new MaxSubarrayBean(low, high, array[low]);
         else {
