@@ -6,7 +6,7 @@ public class Heap {
 
     private static final int DEFAULT_CAPACITY = 10;
 
-    private int heapSize = 0;
+    protected int heapSize = 0;
     transient int[] elementData;
 
     public Heap() {
@@ -49,7 +49,7 @@ public class Heap {
         }
     }
 
-    private void buildMaxHeap(int[] array) {
+    protected void buildMaxHeap(int[] array) {
         for(int i= heapSize/2; i>=0; i--){
             maxHeapify(array,i);
         }
