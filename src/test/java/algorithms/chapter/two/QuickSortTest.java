@@ -23,4 +23,11 @@ public class QuickSortTest {
         assertArrayEquals(emptyArray, qs.quickSort(emptyArray));
     }
 
+    @Test
+    public void randomizedQuickSortTest() {
+        assertArrayEquals(sortedArray1, qs.randomizedQuickSort(array1));
+        assertArrayEquals(sortedArray2, qs.randomizedQuickSort(array2));
+        assertArrayEquals(emptyArray, qs.randomizedQuickSort(emptyArray));
+    }
+
 }
