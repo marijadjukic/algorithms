@@ -30,4 +30,11 @@ public class QuickSortTest {
         assertArrayEquals(emptyArray, qs.randomizedQuickSort(emptyArray));
     }
 
+    @Test
+    public void hoareQuickSortTest() {
+        assertArrayEquals(sortedArray1, qs.hoareQuickSort(array1));
+        assertArrayEquals(sortedArray2, qs.hoareQuickSort(array2));
+        assertArrayEquals(emptyArray, qs.hoareQuickSort(emptyArray));
+    }
+
 }
