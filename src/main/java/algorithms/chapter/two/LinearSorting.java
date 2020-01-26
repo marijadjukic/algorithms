@@ -1,5 +1,8 @@
 package algorithms.chapter.two;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public class LinearSorting {
 
     public int[] countingSort(int[] array) {
@@ -90,6 +93,63 @@ public class LinearSorting {
             counter[i_digit_arr[j]]--;
         }
         return sorted;
+    }
+
+    /**
+     * Sorts array using bucket sorting implementation with insertion sort
+     * and assumes that all elements are in range from 0 to 1
+     * @param array array to sort
+     * @return sorted array
+     */
+    public double[] bucketSort(double[] array) {
+        int n = array.length;
+        List<Double>[] buckets = new LinkedList[n];
+
+        for(int i=0; i<n; i++){
+            buckets[i] = new LinkedList<>();
+        }
+
+        for(int i=0; i<n; i++) {
+            int index = (int) (n*array[i]);
+            buckets[index].add(array[i]);;
+        }
+
+        for(int i=0; i<n; i++) {
+            if(buckets[i].size()>1){
+                insertionSort(buckets[i]);
+            }
+        }
+        return concatenateBucketsToArray(buckets,n);
+    }
+
+    private void insertionSort(List<Double> bucket) {
+        for(int i = 1; i<bucket.size(); i++){
+            double key = bucket.get(i);
+            int j = i - 1;
+            while(j>=0 && bucket.get(j)>key){
+                bucket.set(j+1, bucket.get(j));
+                j = j - 1;
+            }
+            bucket.set(j+1, key);
+        }
+    }
+
+    private double[] concatenateBucketsToArray(List<Double>[] buckets, int n) {
+        double[] sortedArray = new double[n];
+        int k=0;
+
+        for(int i=0; i<n; i++){
+            if(buckets[i].size()>1){
+                for(int j=0; j<buckets[i].size(); j++) {
+                    sortedArray[k] = buckets[i].get(j);
+                    k++;
+                }
+            } else if(buckets[i].size()==1){
+                sortedArray[k] = buckets[i].get(0);
+                k++;
+            }
+        }
+        return sortedArray;
     }
 
 }
