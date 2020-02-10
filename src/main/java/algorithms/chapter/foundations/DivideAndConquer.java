@@ -1,4 +1,4 @@
-package algorithms.chapter.one;
+package algorithms.chapter.foundations;
 
 public class DivideAndConquer {
 

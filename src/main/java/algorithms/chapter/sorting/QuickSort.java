@@ -1,4 +1,4 @@
-package algorithms.chapter.two;
+package algorithms.chapter.sorting;
 
 public class QuickSort {
 

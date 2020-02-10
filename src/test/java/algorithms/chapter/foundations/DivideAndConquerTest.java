@@ -1,4 +1,4 @@
-package algorithms.chapter.one;
+package algorithms.chapter.foundations;
 
 import org.junit.Test;
 
