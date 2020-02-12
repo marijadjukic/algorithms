@@ -27,9 +27,7 @@ public class DoubleLinkedList<E> implements LinkedList<E> {
             data[i] = node;
         }
         data[0].next = data[1];
-        //head = data[0];
         data[n-1].prev = data[n-2];
-        //tail = data[n-1];
         for(int i=1; i<n-1; i++) {
             data[i].prev = data[i-1];
             data[i].next = data[i+1];
