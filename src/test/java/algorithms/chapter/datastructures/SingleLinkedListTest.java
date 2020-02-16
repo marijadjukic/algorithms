@@ -53,7 +53,7 @@ public class SingleLinkedListTest {
     @Test
     public void testDelete() {
         singleLinkedList.delete(4);
-        assertThat(singleLinkedList.size(), is(4));
+        assertThat(singleLinkedList.size(), is(3));
     }
 
 }

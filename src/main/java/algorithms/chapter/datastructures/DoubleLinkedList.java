@@ -83,6 +83,7 @@ public class DoubleLinkedList<E> implements LinkedList<E> {
         } else {
             tail = node.prev;
         }
+        size--;
     }
 
     @Override

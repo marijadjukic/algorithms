@@ -81,6 +81,7 @@ public class SingleLinkedList<E> implements LinkedList<E> {
         } else {
             tail = prevNode;
         }
+        size--;
     }
 
     @Override

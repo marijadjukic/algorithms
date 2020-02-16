@@ -59,7 +59,7 @@ public class DoubleLinkedListTest {
     @Test
     public void testDelete() {
         doubleLinkedList.delete(4);
-        assertThat(doubleLinkedList.size(), is(4));
+        assertThat(doubleLinkedList.size(), is(3));
         assertThat(doubleLinkedList.getTail().getPrev().getKey(), is(16));
     }
 
