@@ -216,7 +216,7 @@ public class BinarySearchTree<T extends Comparable<? super T>> {
         }
     }
 
-    class Node<T> {
+    public class Node<T> {
 
         private T key;
 
