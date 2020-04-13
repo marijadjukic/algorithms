@@ -93,12 +93,12 @@ public class CoinChangeProblem {
         int column = total + 1;
         int[][] coinChangeMatrix = new int[row][column];
 
-        for (int j = 0; j < column; j++) {
+        for (int j = 1; j < column; j++) {
             coinChangeMatrix[0][j] = Integer.MAX_VALUE;
         }
 
         for (int i = 0; i < row; i++) {
-            coinChangeMatrix[i][0] = Integer.MAX_VALUE;
+            coinChangeMatrix[i][0] = 0;
         }
 
         for (int i = 1; i < row; i++) {
@@ -140,13 +140,21 @@ public class CoinChangeProblem {
         return ArraysUtil.removeZeros(coinChangeResult);
     }
 
-    public int coinChangeBottomUpSpaceOptimization(int[] coins, int total) {
+    public CoinChangeOptimizationItem coinChangeBottomUpSpaceOptimization(int[] coins, int total) {
         int row = coins.length;
         int column = total + 1;
+
         int[] coinChangeArray = new int[column];
+        coinChangeArray[0] = 0;
+
+        int[] coinDenominationArray = new int[column];
+
+        for (int j = 1; j < column; j++) {
+            coinChangeArray[j] = Integer.MAX_VALUE;
+        }
 
         for (int j = 0; j < column; j++) {
-            coinChangeArray[j] = Integer.MAX_VALUE;
+            coinDenominationArray[j] = -1;
         }
 
         for (int i = 0; i < row; i++) {
@@ -155,13 +163,34 @@ public class CoinChangeProblem {
                     continue;
                 } else if (coins[i] == j) {
                     coinChangeArray[j] = 1;
+                    coinDenominationArray[j] = i;
                 } else {
                     int value = (coinChangeArray[j - coins[i]] == Integer.MAX_VALUE) ? Integer.MAX_VALUE : coinChangeArray[j - coins[i]] + 1;
-                    coinChangeArray[j] = Math.min(coinChangeArray[j], value);
+                    if(value < coinChangeArray[j]) {
+                        coinChangeArray[j] = value;
+                        coinDenominationArray[j] = i;
+                    }
                 }
             }
         }
-        return coinChangeArray[total];
+
+        CoinChangeOptimizationItem coinChangeItem
+                = new CoinChangeOptimizationItem(coinChangeArray[total],
+                    getCoinDenominationResult(coins, coinDenominationArray, total));
+        return coinChangeItem;
+    }
+
+    private int[] getCoinDenominationResult(int[] coins, int[] coinDenominationArray, int total) {
+        int[] coinDenominationResult = new int[coins.length];
+        int index = 0;
+
+        while (total != 0) {
+            coinDenominationResult[index] = coins[coinDenominationArray[total]];
+            index++;
+            total = total - coins[coinDenominationArray[total]];
+        }
+
+        return ArraysUtil.removeZeros(coinDenominationResult);
     }
 
 }

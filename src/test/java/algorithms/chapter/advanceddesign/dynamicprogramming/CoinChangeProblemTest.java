@@ -57,8 +57,12 @@ public class CoinChangeProblemTest {
 
     @Test
     public void testCoinChangeBottomUpSpaceOptimization() {
-        assertThat(ccp.coinChangeBottomUpSpaceOptimization(coins1, TOTAL_1), is(2));
-        assertThat(ccp.coinChangeBottomUpSpaceOptimization(coins2, TOTAL_2), is(2));
+        assertThat(ccp.coinChangeBottomUpSpaceOptimization(coins1, TOTAL_1).getTotalNumOfCoins(), is(2));
+        assertArrayEquals(new int[]{6,7}, ccp.coinChangeBottomUpSpaceOptimization(coins1, TOTAL_1).getCoinsDenomination());
+
+        assertThat(ccp.coinChangeBottomUpSpaceOptimization(coins2, TOTAL_2).getTotalNumOfCoins(), is(2));
+        assertArrayEquals(new int[]{5,5}, ccp.coinChangeBottomUpSpaceOptimization(coins2, TOTAL_2).getCoinsDenomination());
+
     }
 
 }
