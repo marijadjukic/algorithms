@@ -2,7 +2,7 @@ package algorithms.chapter.sorting;
 
 import java.util.Arrays;
 
-public class PriorityQueue extends Heap {
+public class PriorityQueue<T extends Comparable<? super T>> extends Heap<T> {
 
     public PriorityQueue() {
         super();
@@ -12,15 +12,19 @@ public class PriorityQueue extends Heap {
         super(initialCapacity);
     }
 
-    public PriorityQueue(int[] array) {
+    public PriorityQueue(T[] array) {
         super(array);
+    }
+
+    public PriorityQueue(T[] array, boolean isMin) {
+        super(array, isMin);
     }
 
     /**
      * Returns the element with largest key
      * @return maximum key of priority queue
      */
-    public int heapMaximum() {
+    public T heapMaximum() {
         return elementData[0];
     }
 
@@ -29,9 +33,9 @@ public class PriorityQueue extends Heap {
      * Removes and returns the element with the largest key
      * @return maximum key that has been removed
      */
-    public int heapExtractMax() {
+    public T heapExtractMax() {
         if(heapSize < 0) throw new IllegalArgumentException("Heap underflow.");
-        int max = elementData[0];
+        T max = elementData[0];
         remove(max);
         return max;
     }
@@ -42,8 +46,8 @@ public class PriorityQueue extends Heap {
      * @param i ith element
      * @param key new value for i's key
      */
-    public void heapIncreaseKey(int i, int key) {
-        if(key < elementData[i]) {
+    public void heapIncreaseKey(int i, T key) {
+        if(key.compareTo(elementData[i]) < 0) {
             throw new IllegalArgumentException("New key is smaller than current key.");
         }
         elementData[i] = key;
@@ -54,11 +58,41 @@ public class PriorityQueue extends Heap {
      * Inserts the element with a key
      * @param key the key of the new element
      */
-    public void maxHeapInsert(int key) {
+    public void maxHeapInsert(T key) {
         heapSize++;
         elementData = Arrays.copyOf(this.elementData, heapSize);
-        elementData[heapSize-1] = Integer.MIN_VALUE;
+        elementData[heapSize-1] = key;
         heapIncreaseKey(heapSize-1, key);
+    }
+
+    /**
+     * Removes and returns the element with the smallest key
+     * @return minimum key that has been removed
+     */
+    public T heapExtractMin() {
+        if(heapSize < 0) throw new IllegalArgumentException("Heap underflow.");
+        T min = elementData[0];
+        minHeapRemove(min);
+        return min;
+    }
+
+    /**
+     * Inserts the element with a key
+     * @param key the key of the new element
+     */
+    public void minHeapInsert(T key) {
+        heapSize++;
+        elementData = Arrays.copyOf(this.elementData, heapSize);
+        elementData[heapSize-1] = key;
+        minHeapIncreaseKey(heapSize-1, key);
+    }
+
+    public void minHeapIncreaseKey(int i, T key) {
+        if(key.compareTo(elementData[i]) < 0) {
+            throw new IllegalArgumentException("New key is smaller than current key.");
+        }
+        elementData[i] = key;
+        buildMinHeap(elementData);
     }
 
 }

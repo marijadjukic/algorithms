@@ -7,9 +7,9 @@ import static org.hamcrest.CoreMatchers.*;
 
 public class PriorityQueueTest {
 
-    private final int[] array = new int[]{16,14,10,8,7,9,3,2,4,1};
+    private final Integer[] array = new Integer[]{16,14,10,8,7,9,3,2,4,1};
 
-    private PriorityQueue priorityQueue = new PriorityQueue(array);
+    private PriorityQueue<Integer> priorityQueue = new PriorityQueue<>(array);
 
     @Test
     public void testHeapMaximum() {

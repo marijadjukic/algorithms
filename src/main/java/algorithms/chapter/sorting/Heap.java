@@ -2,80 +2,95 @@ package algorithms.chapter.sorting;
 
 import java.util.Arrays;
 
-public class Heap {
+public class Heap<T extends Comparable<? super T>> {
 
     private static final int DEFAULT_CAPACITY = 10;
 
     protected int heapSize = 0;
-    transient int[] elementData;
+    protected T[] elementData;
 
     public Heap() {
-        this.elementData = new int[DEFAULT_CAPACITY];
+        this.elementData = newArray(DEFAULT_CAPACITY);
     }
 
     public Heap(int initialCapacity) {
         if (initialCapacity > 0) {
-            this.elementData = new int[initialCapacity];
+            this.elementData = newArray(initialCapacity);
         } else if (initialCapacity == 0){
-            this.elementData = new int[0];
+            this.elementData = newArray(0);
         } else {
             throw new IllegalArgumentException("Illegal Capacity: " + initialCapacity);
         }
     }
 
-    public Heap(int[] array) {
+    public Heap(T[] array) {
         elementData = array;
         heapSize = array.length;
         buildMaxHeap(elementData);
     }
 
-    private void maxHeapify(int[] array, int i) {
+    public Heap(T[] array, boolean isMin) {
+        elementData = newArray(array.length, array);
+        heapSize = array.length;
+        if(isMin) {
+            buildMinHeap(elementData);
+        } else {
+            buildMaxHeap(elementData);
+        }
+    }
+
+    @SafeVarargs
+    static <T> T[] newArray(int length, T... array) {
+        return Arrays.copyOf(array, length);
+    }
+
+    private void maxHeapify(T[] array, int i) {
         int l = 2*i+1;
         int r = 2*i+2;
         int largest = Integer.MIN_VALUE;
-        if (l<heapSize && array[l]>array[i]) {
+        if (l<heapSize && array[l].compareTo(array[i])>0) {
             largest = l;
         } else {
             largest = i;
         }
-        if(r<heapSize && array[r]>array[largest]) {
+        if(r<heapSize && array[r].compareTo(array[largest])>0) {
             largest = r;
         }
         if (largest != i) {
-            int tmp = array[largest];
+            T tmp = array[largest];
             array[largest] = array[i];
             array[i] = tmp;
             maxHeapify(array, largest);
         }
     }
 
-    protected void buildMaxHeap(int[] array) {
+    protected void buildMaxHeap(T[] array) {
         for(int i= heapSize/2; i>=0; i--){
             maxHeapify(array,i);
         }
     }
 
-    private void minHeapify(int[] array, int i) {
+    private void minHeapify(T[] array, int i) {
         int l = 2*i+1;
         int r = 2*i+2;
         int largest = Integer.MIN_VALUE;
-        if (l<heapSize && array[l]<array[i]) {
+        if (l<heapSize && array[l].compareTo(array[i])<0) {
             largest = l;
         } else {
             largest = i;
         }
-        if(r<heapSize && array[r]<array[largest]) {
+        if(r<heapSize && array[r].compareTo(array[largest])<0) {
             largest = r;
         }
         if (largest != i) {
-            int tmp = array[largest];
+            T tmp = array[largest];
             array[largest] = array[i];
             array[i] = tmp;
             minHeapify(array, largest);
         }
     }
 
-    private void buildMinHeap(int[] array) {
+    protected void buildMinHeap(T[] array) {
         for(int i= heapSize/2; i>=0; i--){
             minHeapify(array,i);
         }
@@ -85,7 +100,7 @@ public class Heap {
         buildMinHeap(elementData);
     }
 
-    public void insert(int element) {
+    public void insert(T element) {
         if (this.heapSize == this.elementData.length) {
             elementData = Arrays.copyOf(this.elementData, heapSize + 1);
             elementData[heapSize] = element;
@@ -94,7 +109,7 @@ public class Heap {
         buildMaxHeap(elementData);
     }
 
-    public boolean remove(int element) {
+    public boolean remove(T element) {
         int i = this.indexOf(element);
         if(i == -1) {
             return false;
@@ -110,10 +125,26 @@ public class Heap {
         return false;
     }
 
-    public int[] heapSort() {
+    public boolean minHeapRemove(T element) {
+        int i = this.indexOf(element);
+        if(i == -1) {
+            return false;
+        }
+        int newSize = elementData.length - 1;
+        if (newSize > i) {
+            System.arraycopy(elementData, i + 1, elementData, i, newSize-i);
+            elementData = Arrays.copyOfRange(elementData,0,newSize);
+            heapSize--;
+            buildMinHeap(elementData);
+            return true;
+        }
+        return false;
+    }
+
+    public T[] heapSort() {
         buildMaxHeap(elementData);
         for(int i=elementData.length-1; i>0; i--) {
-            int tmp = elementData[0];
+            T tmp = elementData[0];
             elementData[0] = elementData[i];
             elementData[i] = tmp;
             heapSize--;
@@ -123,19 +154,19 @@ public class Heap {
         return elementData;
     }
 
-    public int getParent(int i) {
+    public T getParent(int i) {
         return elementData[i/2];
     }
 
-    public int getLeft(int i) {
+    public T getLeft(int i) {
         return elementData[2*i+1];
     }
 
-    public int getRight(int i) {
+    public T getRight(int i) {
         return elementData[2*i+2];
     }
 
-    public int getRoot() {
+    public T getRoot() {
         return elementData[0];
     }
 
@@ -143,7 +174,7 @@ public class Heap {
         return this.heapSize;
     }
 
-    public int indexOf(int element) {
+    public int indexOf(T element) {
         for(int i=0; i<heapSize; i++) {
             if(elementData[i] == element){
                 return i;
@@ -156,14 +187,14 @@ public class Heap {
         return this.heapSize == 0;
     }
 
-    public int[] toArray() {
+    public T[] toArray() {
         return elementData;
     }
 
     @Override
     public String toString() {
         String elements = "";
-        for(int element : elementData) {
+        for(T element : elementData) {
             elements += element + " ";
         }
         return "[ " + elements + "]";
