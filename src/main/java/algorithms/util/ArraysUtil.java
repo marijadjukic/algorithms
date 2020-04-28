@@ -13,4 +13,9 @@ public class ArraysUtil {
         return zeroIndex > 0 ? Arrays.copyOfRange(array,0,zeroIndex) : array;
     }
 
+    @SafeVarargs
+    public static <T> T[] newArray(int length, T... array) {
+        return Arrays.copyOf(array, length);
+    }
+
 }
