@@ -1,8 +1,6 @@
 package algorithms.chapter.datastructures;
 
-import java.util.Objects;
-
-public class CircularLinkedList<E> implements LinkedList<E> {
+public class CircularLinkedList<E extends Comparable<E>> implements LinkedList<E> {
 
     private int size = 0;
     private Node<E> sentinel;
@@ -40,15 +38,19 @@ public class CircularLinkedList<E> implements LinkedList<E> {
         return size;
     }
 
+    public void setSize(int size) {
+        this.size = size;
+    }
+
     @Override
     public boolean isEmpty() {
         return sentinel.next == sentinel.prev;
     }
 
     @Override
-    public Node search(E key) {
+    public Node<E> search(E key) {
         Node<E> node = sentinel.next;
-        while(node != sentinel && node.key != key) {
+        while(node != sentinel && node.key.compareTo(key) != 0) {
             node = node.next;
         }
         return node;
@@ -61,6 +63,8 @@ public class CircularLinkedList<E> implements LinkedList<E> {
         node.next = sentinel.next;
         if(sentinel.next != null) {
             sentinel.next.prev = node;
+        } else {
+            sentinel.prev = node;
         }
         sentinel.next = node;
         node.prev = sentinel;
@@ -100,7 +104,15 @@ public class CircularLinkedList<E> implements LinkedList<E> {
         return sentinel;
     }
 
-    class Node<E> {
+    public Node<E> getFirst() {
+        return sentinel.next;
+    }
+
+    public Node<E> getLast() {
+        return sentinel.prev;
+    }
+
+    public class Node<E> {
         private Node<E> prev;
         private E key;
         private Node<E> next;
@@ -115,6 +127,18 @@ public class CircularLinkedList<E> implements LinkedList<E> {
 
         public Node<E> getNext() {
             return next;
+        }
+
+        public void setPrev(Node<E> prev) {
+            this.prev = prev;
+        }
+
+        public void setKey(E key) {
+            this.key = key;
+        }
+
+        public void setNext(Node<E> next) {
+            this.next = next;
         }
     }
 
