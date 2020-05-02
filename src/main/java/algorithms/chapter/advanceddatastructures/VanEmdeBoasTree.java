@@ -4,7 +4,7 @@ import java.util.Set;
 
 public class VanEmdeBoasTree {
 
-    private static final int DEFAULT_UNIVERSE_SIZE = 10;
+    private static final int DEFAULT_UNIVERSE_SIZE = 16;
 
     private Integer universeSize;
 
@@ -18,7 +18,7 @@ public class VanEmdeBoasTree {
 
     /**
      * Constructs empty van Emde Boas tree with default universe size.
-     * DEFAULT_UNIVERSE_SIZE = 10
+     * DEFAULT_UNIVERSE_SIZE = 16
      */
     public VanEmdeBoasTree() {
         this(DEFAULT_UNIVERSE_SIZE);
@@ -26,7 +26,7 @@ public class VanEmdeBoasTree {
 
     /**
      * Constructs empty van Emde Boas tree with given universe size
-     * @param universeSize
+     * @param universeSize any exact power of 2
      */
     public VanEmdeBoasTree(int universeSize) {
         this.universeSize = universeSize;
