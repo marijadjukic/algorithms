@@ -15,6 +15,10 @@ public class Vertex<T extends Comparable<? super T>> implements Comparable<Verte
 
     private int distance;
 
+    private int discoveryTime;
+
+    private int finishingTime;
+
     private GraphColors color;
 
     private Vertex<T> parent;
