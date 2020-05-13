@@ -10,8 +10,6 @@ import java.util.*;
 
 public class DepthFirstSearchTest {
 
-    private DepthFirstSearch<String> depthFirstSearch = new DepthFirstSearch<>();
-
     private Vertex<String> vertexS = new Vertex<>("s");
     private Vertex<String> vertexZ = new Vertex<>("z");
     private Vertex<String> vertexW = new Vertex<>("w");
@@ -21,26 +19,23 @@ public class DepthFirstSearchTest {
     private Vertex<String> vertexV = new Vertex<>("v");
     private Vertex<String> vertexY = new Vertex<>("y");
 
-    private Graph<String> graph;
+    private Graph<String> graph = new Graph<>();
 
     @Before
     public void setUp() {
-        Map<Vertex<String>, Vertex<String>[]> graphMap = new HashMap<>();
-        graphMap.put(vertexS, new Vertex[]{vertexZ, vertexW});
-        graphMap.put(vertexZ, new Vertex[]{vertexY, vertexW});
-        graphMap.put(vertexY, new Vertex[]{vertexX});
-        graphMap.put(vertexX, new Vertex[]{vertexZ});
-        graphMap.put(vertexW, new Vertex[]{vertexX});
-        graphMap.put(vertexV, new Vertex[]{vertexW, vertexS});
-        graphMap.put(vertexT, new Vertex[]{vertexU, vertexV});
-        graphMap.put(vertexU, new Vertex[]{vertexT, vertexV});
-
-        graph = new Graph<>(graphMap);
+        graph.add(vertexS, Arrays.asList(vertexZ, vertexW));
+        graph.add(vertexZ, Arrays.asList(vertexY, vertexW));
+        graph.add(vertexY, vertexX);
+        graph.add(vertexX, vertexZ);
+        graph.add(vertexW, vertexX);
+        graph.add(vertexV, Arrays.asList(vertexW, vertexS));
+        graph.add(vertexT, Arrays.asList(vertexU, vertexV));
+        graph.add(vertexU, Arrays.asList(vertexT, vertexV));
     }
 
     @Test
     public void testDepthFirstSearch() {
-        depthFirstSearch.depthFirstSearch(graph);
+        graph.depthFirstSearch();
         int lastFinishingTime = 0;
         for (Vertex<String> vertex : graph.getGraphMap().keySet()) {
             if(vertex.getFinishingTime() > lastFinishingTime) {
@@ -51,6 +46,13 @@ public class DepthFirstSearchTest {
             assertThat(vertex.getDiscoveryTime(), lessThanOrEqualTo(vertex.getFinishingTime()));
         }
         assertThat(lastFinishingTime, is(16));
+    }
+
+    @Test
+    public void testDepthFirstSearchFromVertex() {
+        graph.depthFirstSearch(vertexZ);
+        String path = graph.getPath(vertexZ, vertexX);
+        assertNotNull(path);
     }
 
 }

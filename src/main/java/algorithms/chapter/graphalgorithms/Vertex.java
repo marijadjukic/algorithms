@@ -25,6 +25,8 @@ public class Vertex<T extends Comparable<? super T>> implements Comparable<Verte
 
     public Vertex(T value) {
         this.value = value;
+        this.distance = Integer.MAX_VALUE;
+        this.color = GraphColors.WHITE;
     }
 
     @Override
