@@ -13,4 +13,10 @@ public class Edge<T extends Comparable<? super T>> {
 
     private T yVertex;
 
+    private Integer weight;
+
+    public Edge(T xVertex, T yVertex) {
+        this.xVertex = xVertex;
+        this.yVertex = yVertex;
+    }
 }
