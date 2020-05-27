@@ -3,12 +3,8 @@ package algorithms.chapter.graphalgorithms;
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
 
-import algorithms.chapter.advanceddatastructures.Edge;
-import algorithms.chapter.advanceddatastructures.Graph;
+import org.junit.Before;
 import org.junit.Test;
-
-import java.util.Arrays;
-import java.util.List;
 
 public class SingleSourceShortestPathsTest {
 
@@ -19,26 +15,58 @@ public class SingleSourceShortestPathsTest {
     private Vertex<String> x = new Vertex<>("x");
     private Vertex<String> y = new Vertex<>("y");
     private Vertex<String> z = new Vertex<>("z");
-    private List<Vertex<String>> vertices = Arrays.asList(s, t, x, y, z);
-    private List<Edge<Vertex<String>>> edges = Arrays.asList(
-            new Edge<>(s, t, 6),
-            new Edge<>(s, y, 7),
-            new Edge<>(t, x, 5),
-            new Edge<>(x, t, -2),
-            new Edge<>(t, y, 8),
-            new Edge<>(t, z, -4),
-            new Edge<>(y, x, -3),
-            new Edge<>(y, z, 9),
-            new Edge<>(z, x, 7),
-            new Edge<>(z, s, 2)
-    );
-    private Graph<Vertex<String>> graph = new Graph<>(vertices, edges);
+    private Vertex<String> r = new Vertex<>("r");
+
+    private Graph<String> belmanFordGraph = new Graph<>();
+    private Graph<String> dagGraph = new Graph<>();
+
+    @Before
+    public void setUp() {
+        initBelmanFordGraph();
+        initDagGraph();
+    }
 
     @Test
     public void testBellmanFord() {
-        assertTrue(sssp.bellmanFord(graph, s));
+        assertTrue(sssp.bellmanFord(belmanFordGraph, s));
         assertThat(t.getDistance(), is(2));
         assertThat(t.getParent(), is(x));
+        assertThat(belmanFordGraph.getPath(s, t), is("s-y-x-t"));
+    }
+
+    @Test
+    public void testDagShortestPaths() {
+        sssp.dagShortestPaths(dagGraph, s);
+        assertThat(x.getDistance(), is(6));
+        assertThat(x.getParent(), is(s));
+        assertThat(dagGraph.getPath(s, y), is("s-x-y"));
+    }
+
+    private void initBelmanFordGraph() {
+        belmanFordGraph.add(s, t, 6);
+        belmanFordGraph.add(s, y, 7);
+        belmanFordGraph.add(t, x, 5);
+        belmanFordGraph.add(x, t, -2);
+        belmanFordGraph.add(t, y, 8);
+        belmanFordGraph.add(t, z, -4);
+        belmanFordGraph.add(y, x, -3);
+        belmanFordGraph.add(y, z, 9);
+        belmanFordGraph.add(z, x, 7);
+        belmanFordGraph.add(z, s, 2);
+    }
+
+    private void initDagGraph() {
+        dagGraph.add(r, s, 5);
+        dagGraph.add(r, t, 3);
+        dagGraph.add(s, t, 2);
+        dagGraph.add(s, x, 6);
+        dagGraph.add(t, x, 7);
+        dagGraph.add(t, y, 4);
+        dagGraph.add(t, z, 2);
+        dagGraph.add(x, y, -1);
+        dagGraph.add(x, z, 1);
+        dagGraph.add(y, z, -2);
+        dagGraph.add(z);
     }
 
 }

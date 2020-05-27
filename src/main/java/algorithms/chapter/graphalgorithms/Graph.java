@@ -1,5 +1,6 @@
 package algorithms.chapter.graphalgorithms;
 
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.*;
@@ -13,6 +14,9 @@ public class Graph<T extends Comparable<? super T>> {
      */
     private Map<Vertex<T>, LinkedList<Vertex<T>>> graphMap = new HashMap<>();
 
+    @Getter
+    private List<Edge<T>> edges = new ArrayList<>();
+
     private int time;
 
     public void add(Vertex<T> vertex) {
@@ -22,6 +26,12 @@ public class Graph<T extends Comparable<? super T>> {
     public void add(Vertex<T> vertex, Vertex<T> edge) {
         Collection<Vertex<T>> edges = Arrays.asList(edge);
         this.add(vertex, edges);
+    }
+
+    public void add(Vertex<T> vertex, Vertex<T> edge, int edgeWeight) {
+        this.add(vertex, edge);
+        Edge<T> e = new Edge<>(vertex, edge, edgeWeight);
+        edges.add(e);
     }
 
     public void add(Vertex<T> vertex, Collection<Vertex<T>> edges) {
@@ -106,4 +116,58 @@ public class Graph<T extends Comparable<? super T>> {
         return this.graphMap;
     }
 
+    public int getEdgeWeight(Vertex<T> u, Vertex<T> v) {
+        Edge<T> edge = new Edge<>(u, v);
+        for(Edge<T> e : this.edges) {
+            if(e.equals(edge)) {
+                return e.weight;
+            }
+        }
+        return 0;
+    }
+
+    public class Edge<T extends Comparable<? super T>> {
+        private Vertex<T> u;
+
+        private Vertex<T> v;
+
+        private int weight;
+
+        public Edge(Vertex<T> u, Vertex<T> v) {
+            this.u = u;
+            this.v = v;
+        }
+
+        public Edge(Vertex<T> u, Vertex<T> v, int weight) {
+            this.u = u;
+            this.v = v;
+            this.weight = weight;
+        }
+
+        public Vertex<T> getU() {
+            return u;
+        }
+
+        public Vertex<T> getV() {
+            return v;
+        }
+
+        public int getWeight() {
+            return weight;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Edge<?> edge = (Edge<?>) o;
+            return Objects.equals(u.getValue(), edge.u.getValue()) &&
+                    Objects.equals(v.getValue(), edge.v.getValue());
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(u.getValue(), v.getValue());
+        }
+    }
 }
