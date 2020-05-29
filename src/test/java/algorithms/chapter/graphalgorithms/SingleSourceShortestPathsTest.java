@@ -6,6 +6,8 @@ import static org.hamcrest.CoreMatchers.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Set;
+
 public class SingleSourceShortestPathsTest {
 
     private SingleSourceShortestPaths<String> sssp = new SingleSourceShortestPaths<>();
@@ -19,11 +21,13 @@ public class SingleSourceShortestPathsTest {
 
     private Graph<String> belmanFordGraph = new Graph<>();
     private Graph<String> dagGraph = new Graph<>();
+    private Graph<String> dijkstraGraph = new Graph<>();
 
     @Before
     public void setUp() {
         initBelmanFordGraph();
         initDagGraph();
+        initDijkstraGraph();
     }
 
     @Test
@@ -40,6 +44,14 @@ public class SingleSourceShortestPathsTest {
         assertThat(x.getDistance(), is(6));
         assertThat(x.getParent(), is(s));
         assertThat(dagGraph.getPath(s, y), is("s-x-y"));
+    }
+
+    @Test
+    public void testDijkstra() {
+       Set<Vertex<String>> set = sssp.dijkstra(dijkstraGraph, s);
+       assertThat(x.getDistance(), is(9));
+       assertThat(x.getParent(), is(t));
+       assertThat(dijkstraGraph.getPath(s, z), is("s-y-z"));
     }
 
     private void initBelmanFordGraph() {
@@ -67,6 +79,19 @@ public class SingleSourceShortestPathsTest {
         dagGraph.add(x, z, 1);
         dagGraph.add(y, z, -2);
         dagGraph.add(z);
+    }
+
+    private void initDijkstraGraph() {
+        dijkstraGraph.add(s, t, 10);
+        dijkstraGraph.add(t, y, 2);
+        dijkstraGraph.add(y, t, 3);
+        dijkstraGraph.add(s, y, 5);
+        dijkstraGraph.add(t, x, 1);
+        dijkstraGraph.add(y, x, 9);
+        dijkstraGraph.add(y, z, 2);
+        dijkstraGraph.add(x, z, 4);
+        dijkstraGraph.add(z, x, 6);
+        dijkstraGraph.add(z, s, 7);
     }
 
 }

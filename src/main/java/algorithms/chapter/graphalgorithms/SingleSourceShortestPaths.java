@@ -1,6 +1,6 @@
 package algorithms.chapter.graphalgorithms;
 
-import java.util.LinkedList;
+import java.util.*;
 
 public class SingleSourceShortestPaths<T extends Comparable<? super T>> {
 
@@ -32,6 +32,24 @@ public class SingleSourceShortestPaths<T extends Comparable<? super T>> {
                 this.relax(u, v, edgeWeight);
             }
         }
+    }
+
+    public Set<Vertex<T>> dijkstra(Graph<T> graph, Vertex<T> source) {
+        this.initSingleSource(graph, source);
+        Set<Vertex<T>> set = new HashSet<>();
+
+        PriorityQueue<Vertex<T>> queue = new PriorityQueue<>(Comparator.comparingInt(Vertex::getDistance));
+        queue.addAll(graph.getGraphMap().keySet());
+
+        while(!queue.isEmpty()) {
+            Vertex<T> u = queue.poll();
+            set.add(u);
+            for(Vertex<T> v : graph.getGraphMap().get(u)) {
+                int edgeWeight = graph.getEdgeWeight(u, v);
+                this.relax(u, v, edgeWeight);
+            }
+        }
+        return set;
     }
 
     private void initSingleSource(Graph<T> graph, Vertex<T> source) {
