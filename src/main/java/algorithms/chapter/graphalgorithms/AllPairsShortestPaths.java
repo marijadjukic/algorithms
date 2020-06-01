@@ -2,6 +2,12 @@ package algorithms.chapter.graphalgorithms;
 
 public class AllPairsShortestPaths {
 
+    /**
+     * Returns a matrix with computed all pairs shortest paths for a given graph
+     * in O(n4) time where n is the number of rows in matrix with edge weights
+     * @param graph matrix representation of the graph
+     * @return int[n][n]
+     */
     public int[][] slowAllPairsShortestPaths(GraphMatrix graph) {
         int[][] weightsMatrix = graph.getGraphMatrix();
         int n = weightsMatrix.length;
@@ -12,6 +18,27 @@ public class AllPairsShortestPaths {
             int[][] current = shortestPathsWeights;
             int[][] shortestPathsWeightsExtended = this.extendedShortestPaths(current, weightsMatrix);
             shortestPathsWeights = shortestPathsWeightsExtended;
+        }
+        return shortestPathsWeights;
+    }
+
+    /**
+     * Returns a matrix with computed all pairs shortest paths for a given graph
+     * in O(n3 lgn) time where n is the number of rows in matrix with edge weights
+     * @param graph matrix representation of the graph
+     * @return int[n][n]
+     */
+    public int[][] fasterAllPairsShortestPaths(GraphMatrix graph) {
+        int[][] weightsMatrix = graph.getGraphMatrix();
+        int n = weightsMatrix.length;
+
+        int[][] shortestPathsWeights = weightsMatrix;
+        int m = 1;
+        while (m < n - 1) {
+            int[][] current = shortestPathsWeights;
+            int[][] shortestPathsWeightsExtended = this.extendedShortestPaths(current, current);
+            shortestPathsWeights = shortestPathsWeightsExtended;
+            m = 2*m;
         }
         return shortestPathsWeights;
     }

@@ -22,7 +22,14 @@ public class AllPairsShortestPathsTest {
 
         assertThat(allPairsShortestPaths[0][2], is(-3));
         assertThat(allPairsShortestPaths[4][0], is(8));
+    }
 
+    @Test
+    public void testFasterAllPairsShortestPaths() {
+        int[][] allPairsShortestPaths = apsp.fasterAllPairsShortestPaths(graph);
+
+        assertThat(allPairsShortestPaths[0][2], is(-3));
+        assertThat(allPairsShortestPaths[4][0], is(8));
     }
 
     private void initGraph() {
