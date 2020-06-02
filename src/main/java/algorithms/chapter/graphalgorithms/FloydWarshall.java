@@ -84,4 +84,32 @@ public class FloydWarshall {
         return shortestPathsPredecessor;
     }
 
+    public int[][] transitiveClosure(GraphMatrix graph) {
+        int n = graph.getGraphMatrix().length;
+        int[][] transitiveClosure = new int[n][n];
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if(i == j || graph.getGraphMatrix()[i][j] != Integer.MAX_VALUE) {
+                    transitiveClosure[i][j] = 1;
+                } else {
+                    transitiveClosure[i][j] = 0;
+                }
+            }
+        }
+
+        for (int k = 0; k < n; k++) {
+            int[][] prevIteration = transitiveClosure;
+            int[][] transitiveClosureExtended = new int[n][n];
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < n; j++) {
+                    transitiveClosureExtended[i][j] = prevIteration[i][j] | (prevIteration[i][k] & prevIteration[k][j]);
+                }
+            }
+            transitiveClosure = transitiveClosureExtended;
+        }
+
+        return transitiveClosure;
+    }
+
 }

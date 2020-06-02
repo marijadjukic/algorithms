@@ -10,10 +10,12 @@ public class FloydWarshallTest {
 
     private FloydWarshall floydWarshall = new FloydWarshall();
     private GraphMatrix graph = new GraphMatrix(5);
+    private GraphMatrix graph2 = new GraphMatrix(4);
 
     @Before
     public void setUp() {
         this.initGraph();
+        this.initGraph2();
     }
 
     @Test
@@ -35,6 +37,14 @@ public class FloydWarshallTest {
         assertThat(shortestPathFrom0to2, is("0-4-3-2"));
     }
 
+    @Test
+    public void testTransitiveClosure() {
+        int[][] transitiveClosureMatrix = floydWarshall.transitiveClosure(graph2);
+
+        assertThat(transitiveClosureMatrix[0][3], is(0));
+        assertThat(transitiveClosureMatrix[2][2], is(1));
+    }
+
     private void initGraph() {
         graph.addEdge(0, 1, 3);
         graph.addEdge(0, 2, 8);
@@ -45,5 +55,13 @@ public class FloydWarshallTest {
         graph.addEdge(3, 2, -5);
         graph.addEdge(3, 0, 2);
         graph.addEdge(4, 3, 6);
+    }
+
+    private void initGraph2() {
+        graph2.addEdge(1, 3, 0);
+        graph2.addEdge(1, 2, 0);
+        graph2.addEdge(2, 1, 0);
+        graph2.addEdge(3, 2, 0);
+        graph2.addEdge(3, 0, 0);
     }
 }
