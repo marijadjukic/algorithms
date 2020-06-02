@@ -1,13 +1,14 @@
 package algorithms.chapter.graphalgorithms;
 
 import lombok.Getter;
+import lombok.Setter;
 
 public class GraphMatrix {
 
     @Getter
     private int[][] graphMatrix;
 
-    @Getter
+    @Getter @Setter
     private Integer[][] predecessorMatrix;
 
     public GraphMatrix(int size) {
