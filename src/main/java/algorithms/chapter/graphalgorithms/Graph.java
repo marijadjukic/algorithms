@@ -17,6 +17,11 @@ public class Graph<T extends Comparable<? super T>> {
     @Getter
     private List<Edge<T>> edges = new ArrayList<>();
 
+    public Graph(Graph<T> graph){
+        this.graphMap = graph.getGraphMap();
+        this.edges = graph.getEdges();
+    }
+
     private int time;
 
     public void add(Vertex<T> vertex) {
@@ -126,6 +131,13 @@ public class Graph<T extends Comparable<? super T>> {
         return 0;
     }
 
+    public void remove(Vertex<T> vertex) {
+        List<Edge<T>> duplicate = new ArrayList<>(this.edges);
+
+        this.graphMap.remove(vertex);
+        duplicate.stream().filter(edge -> edge.getU().equals(vertex) || edge.getV().equals(vertex)).forEach(this.edges::remove);
+    }
+
     public class Edge<T extends Comparable<? super T>> {
         private Vertex<T> u;
 
@@ -154,6 +166,10 @@ public class Graph<T extends Comparable<? super T>> {
 
         public int getWeight() {
             return weight;
+        }
+
+        public void setWeight(int weight) {
+            this.weight = weight;
         }
 
         @Override

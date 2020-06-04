@@ -23,6 +23,8 @@ public class Vertex<T extends Comparable<? super T>> implements Comparable<Verte
 
     private Vertex<T> parent;
 
+    private int reweightedDistance;
+
     public Vertex(T value) {
         this.value = value;
         this.distance = Integer.MAX_VALUE;
