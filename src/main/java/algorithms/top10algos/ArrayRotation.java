@@ -24,7 +24,7 @@ public class ArrayRotation {
 
     public int[] rotateArrayFast(int[] array, int stepNum) {
         int n = array.length;
-
+        stepNum = stepNum > n ? stepNum - n : stepNum;
         int m = n - stepNum;
 
         // reverse first part of an array

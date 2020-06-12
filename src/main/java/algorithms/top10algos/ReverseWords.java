@@ -13,7 +13,23 @@ public class ReverseWords {
         return String.join(" ", words);
     }
 
+    public String reverseWordsFaster(String s) {
+        String[] words = s.split(" ");
+        StringBuilder result = new StringBuilder();
+        int end = words.length - 1;
+
+        for (int i = end; i >= 0; i--) {
+            if (!words[i].equals("")) {
+                result.append(words[i]);
+                result.append(" ");
+            }
+        }
+        int n = result.length();
+        return n == 0 ? "" : result.deleteCharAt(n - 1).toString();
+    }
+
     public char[] reverseStringAsCharArray(char[] stringAsChar) {
+
         int stringLength = stringAsChar.length;
         int i = 0;
         //reverse each word in array except last word
